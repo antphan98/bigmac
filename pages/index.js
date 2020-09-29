@@ -1,65 +1,51 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import fetch from "node-fetch";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [local, setLocal] = useState([]);
+
+  useEffect(() => {
+    const fetchIp = async () => {
+      const data = await fetch("https://api.ipify.org/?format=json");
+      const result = await data.json();
+      console.log("homeresult", result);
+
+      const countryResponse = await fetch(
+        `/api/ip-to-country/?ip=${result.ip}`
+      );
+      const countryResult = await countryResponse.json();
+      setLocal(countryResult);
+      console.log("country", countryResult);
+    };
+    fetchIp();
+  }, []);
+
   return (
-    <div className={styles.container}>
+    <div className="home">
       <Head>
-        <title>Create Next App</title>
+        <title>Big Mac</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <p>
+        You are located in {""}
+        {local.result?.data?.country_name
+          ? local.result?.data?.country_name
+          : "..."}
+      </p>
+      <p>Please enter an amount of money in your local currency</p>
+      <input type="text"></input>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      <p>You could buy [#] of Big Macs in your country</p>
+      <p>Your Dollar Purchasing Parity (PPP) is [#]</p>
+      <p>
+        Random Country: [RANDOM COUNTRY] You could buy [#] of Big Macs in [RAND
+        COUNTRY] with [INPUT]! (calculation is (INPUT / local price) * (local
+        dollar price / RAND COUNTRY dollar price) Your [INPUT] is worth about
+        [#] in [RAND COUNTRY] (Calculation is [INPUT] * (local dollar price /
+        RAND COUNTRY dollar price))
+      </p>
     </div>
-  )
+  );
 }
