@@ -15,6 +15,22 @@ body {
   opacity: 90%;
   margin: 100px;
   border-radius: 50px;
+  border-style: outset;
+}
+
+.title {
+  font-size: 2.5rem;
+}
+
+.inputMoney {
+  font-family: "Fredoka One", cursive;
+  outline: 0;
+  border-width: 0 0 2px;
+}
+
+.burgerimg {
+  vertical-align: middle;
+  width: 100px;
 }
 
 a {

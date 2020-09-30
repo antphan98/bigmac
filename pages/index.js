@@ -42,13 +42,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1 className="title">
-        <img className="burgerimg" width="70px" src="images/burger.png"></img>
+        <img className="burgerimg" src="images/burger.png"></img>
         Big Mac's Around the World
-        <img width="70px" src="images/burger.png"></img>
+        <img className="burgerimg" src="images/burger.png"></img>
       </h1>
       <h1>You are located in {local.result?.data?.country_name || "..."}</h1>
       <p>Please enter an amount of money in your local currency</p>
       <input
+        className="inputMoney"
         onChange={(event) => setInput(event.target.value)}
         type="text"
       ></input>
@@ -64,7 +65,7 @@ export default function Home() {
         Your Dollar Purchasing Parity (PPP) is{" "}
         {bigMac?.myCountry?.["Dollar PPP"]}
       </p>
-      <h1>Random Country: {bigMac?.randomCountry?.Country}</h1>
+      <h1>The random country is {bigMac?.randomCountry?.Country}</h1>
 
       <p>
         {" "}
@@ -84,7 +85,7 @@ export default function Home() {
               bigMac?.myCountry?.["Dollar price"] /
                 parseFloat(bigMac?.randomCountry?.["Dollar price"])
             )
-        ).toLocaleString()}{" "}
+        ) || "..."}{" "}
         in {bigMac?.randomCountry?.Country}
       </p>
     </div>
