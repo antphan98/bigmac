@@ -30,9 +30,10 @@ export default function Home() {
   }, []);
 
   const formattedInput =
-    (input &&
-      (parseFloat(input) % 1 === 0 ? input : parseFloat(input).toFixed(2))) ||
-    "...";
+    (
+      input &&
+      (parseFloat(input) % 1 === 0 ? input : parseFloat(input).toFixed(2))
+    ).toLocaleString() || "...";
 
   return (
     <div className="home">
@@ -40,7 +41,7 @@ export default function Home() {
         <title>Big Mac</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <h1>Big Mac's Around the World</h1>
       <h1>You are located in {local.result?.data?.country_name || "..."}</h1>
       <p>Please enter an amount of money in your local currency</p>
       <input
@@ -52,7 +53,7 @@ export default function Home() {
         You could buy{" "}
         {parseInt(
           parseFloat(input) / parseFloat(bigMac?.myCountry?.["Local price"])
-        ) || "0"}{" "}
+        ).toLocaleString() || "0"}{" "}
         Big Macs in your country
       </p>
       <p>
@@ -70,7 +71,7 @@ export default function Home() {
               bigMac?.myCountry?.["Dollar price"] /
                 parseFloat(bigMac?.randomCountry?.["Dollar price"])
             )
-        ) || "0"}{" "}
+        ).toLocaleString() || "0"}{" "}
         of Big Macs in {bigMac?.randomCountry?.Country} with {formattedInput}!
         Your {formattedInput} is worth about{" "}
         {parseInt(
@@ -79,7 +80,7 @@ export default function Home() {
               bigMac?.myCountry?.["Dollar price"] /
                 parseFloat(bigMac?.randomCountry?.["Dollar price"])
             )
-        )}{" "}
+        ).toLocaleString()}{" "}
         in {bigMac?.randomCountry?.Country}
       </p>
     </div>
