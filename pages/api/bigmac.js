@@ -1,4 +1,5 @@
 import _ from "lodash";
+const path = require("path");
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
@@ -31,7 +32,7 @@ export default async (req, res) => {
   } else {
     console.log("cache not found");
     bigMacData = [];
-    fs.createReadStream("big-mac-index.csv")
+    fs.createReadStream(path.resolve("./public/big-mac-index.csv"))
       .pipe(csv())
       .on("data", (data) => bigMacData.push(data))
       .on("end", () => {
