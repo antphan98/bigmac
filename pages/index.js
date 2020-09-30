@@ -24,13 +24,15 @@ export default function Home() {
         `/api/bigmac?country=${countryResult.result.data.country_name}`
       );
       const bigMacResult = await bigMac.json();
-      console.log("dick", bigMacResult);
       setBigMac(bigMacResult);
     };
     fetchIp();
   }, []);
 
-  console.log("fart", bigMac);
+  const formattedInput =
+    (input &&
+      (parseFloat(input) % 1 === 0 ? input : parseFloat(input).toFixed(2))) ||
+    "...";
 
   return (
     <div className="home">
@@ -39,21 +41,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>
-        You are located in {""}
-        {local.result?.data?.country_name
-          ? local.result?.data?.country_name
-          : "..."}
-      </h1>
+      <h1>You are located in {local.result?.data?.country_name || "..."}</h1>
       <p>Please enter an amount of money in your local currency</p>
       <input
         onChange={(event) => setInput(event.target.value)}
         type="text"
       ></input>
-      <button>Submit</button>
 
       <p>
-        You could buy Math.floor({input}/{bigMac?.myCountry?.["Dollar price"]})
+        You could buy{" "}
+        {parseInt(
+          parseFloat(input) / parseFloat(bigMac?.myCountry?.["Local price"])
+        ) || "0"}{" "}
         Big Macs in your country
       </p>
       <p>
@@ -64,11 +63,24 @@ export default function Home() {
 
       <p>
         {" "}
-        You could buy [#] of Big Macs in {bigMac?.randomCountry?.Country} with
-        [INPUT]! (calculation is (INPUT / local price) * (local dollar price /
-        RAND COUNTRY dollar price) Your [INPUT] is worth about [#] in [RAND
-        COUNTRY] (Calculation is [INPUT] * (local dollar price / RAND COUNTRY
-        dollar price))
+        You could buy{" "}
+        {parseInt(
+          (parseFloat(input) / parseFloat(bigMac?.myCountry?.["Local price"])) *
+            parseFloat(
+              bigMac?.myCountry?.["Dollar price"] /
+                parseFloat(bigMac?.randomCountry?.["Dollar price"])
+            )
+        ) || "0"}{" "}
+        of Big Macs in {bigMac?.randomCountry?.Country} with {formattedInput}!
+        Your {formattedInput} is worth about{" "}
+        {parseInt(
+          parseFloat(input) *
+            parseFloat(
+              bigMac?.myCountry?.["Dollar price"] /
+                parseFloat(bigMac?.randomCountry?.["Dollar price"])
+            )
+        )}{" "}
+        in {bigMac?.randomCountry?.Country}
       </p>
     </div>
   );
