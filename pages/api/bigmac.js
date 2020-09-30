@@ -5,10 +5,6 @@ const myCache = new NodeCache();
 const csv = require("csv-parser");
 const fs = require("fs");
 
-// Get country query params
-// Filter to country .filter(country => country === {})
-// Lodash orderby ._orderBy(results, ["Date"], ["asc"])
-
 const formatData = (results, country) => {
   const matchingCountryData = results.filter((row) => row.Country === country);
   const orderedByDate = _.orderBy(matchingCountryData, ["Date"], ["desc"]);
@@ -44,16 +40,4 @@ export default async (req, res) => {
         res.status(200).json(response);
       });
   }
-
-  //   res.status(200).json({ country });
-  // response
-  /*
-    {
-        myCountry: { Country: 'United States", ... },
-        randomCountry: { Country: 'Spain", ... }
-    }
-
-    myCountry = results filter my country, orderBy date, choose most recent
-    randomCountry = results filter ! my country, _.sample from filtered 
-  */
 };
